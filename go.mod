@@ -1,4 +1,4 @@
-module github.com/kmou424/autowirego
+module github.com/ohanakogo/autowirego
 
 go 1.20
 
