@@ -1,9 +1,13 @@
 package autowirego
 
-import "github.com/gookit/slog"
+import (
+	"github.com/gookit/slog"
+	"github.com/ohanakogo/ohanakoutilgo"
+)
 
 func InjectWithName[T any](obj *T, name string) {
-	if name == "*" {
+	typeName := ohanakoutilgo.TypeOf[T]().String()
+	if name == typeName {
 		slog.Errorf("can't inject object with key: *")
 		return
 	}
@@ -15,7 +19,8 @@ func Inject[T any](obj *T) {
 }
 
 func ExtractWithName[T any](name string) *T {
-	if name == "*" {
+	typeName := ohanakoutilgo.TypeOf[T]().String()
+	if name == typeName {
 		slog.Errorf("can't extract object with key: *")
 		return nil
 	}

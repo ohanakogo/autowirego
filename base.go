@@ -1,8 +1,8 @@
 package autowirego
 
 import (
-	"github.com/gookit/goutil/reflects"
 	"github.com/gookit/slog"
+	"github.com/ohanakogo/ohanakoutilgo"
 )
 
 var hashingTable = make(map[string]any)
@@ -12,11 +12,12 @@ func injectByNameBase[T any](obj *T, name string) {
 }
 
 func injectBase[T any](obj *T) {
-	injectByNameBase(obj, "*")
+	typeName := ohanakoutilgo.TypeOf[T]().String()
+	injectByNameBase(obj, typeName)
 }
 
 func extractByNameBase[T any](name string) *T {
-	typeName := reflects.TypeOf((*T)(nil)).String()
+	typeName := ohanakoutilgo.TypeOf[T]().String()
 	if hashingTable[name] != nil {
 		val, ok := hashingTable[name].(*T)
 		if !ok {
@@ -29,5 +30,6 @@ func extractByNameBase[T any](name string) *T {
 }
 
 func extractBase[T any]() *T {
-	return extractByNameBase[T]("*")
+	typeName := ohanakoutilgo.TypeOf[T]().String()
+	return extractByNameBase[T](typeName)
 }
